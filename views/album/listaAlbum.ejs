@@ -1,0 +1,48 @@
+<%- include('../components/header.ejs') %>
+
+<div class="container">
+  <h1>Lista de Álbumes</h1>
+
+  <%- include('../components/error.ejs') %> <% if (albums.length == 0) { %>
+  <p>No hay álbumes registrados.</p>
+  <% } else { %>
+  <div class="row">
+    <% albums.forEach(album => { %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <% if (album.imagenes && album.imagenes.length > 0) { %>
+          <!-- Si el álbum tiene imágenes, muestra la primera -->
+          <img
+            src="<%= album.imagenes[0].url %>"
+            class="card-img-top"
+            alt="<%= album.titulo %>"
+          />
+        <% } else { %>
+          <!-- Si no tiene imágenes, muestra una imagen placeholder -->
+          <img
+            src="/images/placeholder.jpg"
+            class="card-img-top"
+            alt="Sin imagen"
+          />
+        <% } %>
+        <div class="card-body">
+          <h5 class="card-title"><%= album.titulo %></h5>
+          <div style="display: flex; justify-content: left; gap: 10px">
+            <a href="/album/<%= album.id %>" class="btn btn-info">Ver</a>
+            <form
+              onsubmit="return confirm('¿Estás seguro de que deseas eliminar este álbum?');"
+              method="POST"
+              action="/albums/<%= album.id %>/delete"
+            >
+              <button class="btn btn-danger" type="submit">Eliminar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+    <% } %>
+</div>
+
+<%- include('../components/footer.ejs') %>

@@ -1,0 +1,47 @@
+<%- include('../components/header.ejs') %>
+<div class="container">
+  <div class="row mt-4 mb-4">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <h1>Subir Imagen</h1>
+          </div>
+          <form action="/imagenes/create" method="POST">
+            <%- include('../components/error.ejs') %>
+
+            <div class="mb-2">
+              <label class="form-label" for="url">URL:</label>
+              <input
+                class="form-control"
+                type="text"
+                id="url"
+                name="url"
+              />
+            </div>
+            <div class="mb-2">
+              <label class="form-label" for="email">Titulo:</label>
+              <input
+                class="form-control"
+                type="text"
+                id="titulo"
+                name="titulo"
+              />
+            </div>
+            <div class="mb-2">
+              <label class="form-label" for="descripcion">Descripción:</label>
+              <textarea
+                class="form-control"
+                id="descripcion"
+                name="descripcion"
+              ></textarea>
+            </div>
+            
+            <button class="btn btn-primary" type="submit">Subir imagen</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../components/footer.ejs') %>
