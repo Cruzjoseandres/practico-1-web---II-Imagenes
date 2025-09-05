@@ -59,14 +59,7 @@ exports.addImagenAlbum = async (req, res) => {
   }
 
   try {
-   /* imagenId.forEach(async imagen => {
-        await db.ImagenAlbum.create({
-            imagenId: imagen,
-            albumId,
-        });
-        console.log("Imagen añadida:", imagen);
-    });.*/
-
+   
     const registros = imagenId.map(id => ({
       imagenId: id,
       albumId,
@@ -82,8 +75,9 @@ exports.addImagenAlbum = async (req, res) => {
 
 
 exports.removeImagenAlbum = async (req, res) => {
-  const { albumId, imagenId } = req.params;
-
+  const  albumId   = req.params.id;
+  const  imagenId   = req.params.imagenId;
+  console.log("Eliminar imagen del álbum:", { albumId, imagenId }); 
   if (!albumId) {
     return res.status(400).json({ error: "ID de álbum no proporcionado" });
   }
@@ -96,7 +90,7 @@ exports.removeImagenAlbum = async (req, res) => {
       where: { albumId, imagenId }
     });
     if (result) {
-      res.status(200).json({ message: "Imagen eliminada del álbum" });
+      res.status(200).redirect("/album/" + albumId);
     } else {
       res.status(404).json({ error: "No se encontró la relación entre el álbum y la imagen" });
     }

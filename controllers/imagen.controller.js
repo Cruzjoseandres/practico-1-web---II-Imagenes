@@ -23,7 +23,7 @@ exports.createImagen = async (req, res) => {
       await db.imagen.update({ url: imagen.id + '.jpg' }, { where: { id: imagen.id } });
     }
 
-    res.redirect("/imagen");
+    res.redirect("/imagenes");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -59,9 +59,9 @@ exports.deleteImagen = async (req, res) => {
     }
 
     await imagen.destroy();
-    res.redirect("/imagen");
+    res.redirect("/imagenes");
   } catch (error) {
-    res.render("/imagen", { error: "Error al eliminar la imagen" });
+    res.render("/imagenes", { error: "Error al eliminar la imagen" });
 
   }
 };

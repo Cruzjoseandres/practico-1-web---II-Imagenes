@@ -36,7 +36,14 @@
                   method="POST"
                   action="/imagenes/<%= imagen.id %>/delete"
                 >
-                  <button class="btn btn-danger" type="submit">Eliminar</button>
+                  <button class="btn btn-danger" type="submit">Eliminar imagen</button>
+                </form>
+                <form
+                  onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta imagen del álbum?');"
+                  method="POST"
+                  action="/imagenAlbum/<%= album.id %>/imagen/<%= imagen.id %>/delete"
+                >
+                  <button class="btn btn-danger" type="submit">Eliminar imagen del álbum</button>
                 </form>
               </div>
             </div>

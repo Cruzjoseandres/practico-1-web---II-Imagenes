@@ -6,7 +6,8 @@ module.exports = (app) => {
 
 
     router.post("/create/:id", checkUser, imagenAlbumController.createImagenAlbum);
-    router.post("/add/:id", checkUser, imagenAlbumController.addImagenAlbum)
+    router.post("/add/:id", checkUser, imagenAlbumController.addImagenAlbum);
+    router.post("/:id/imagen/:imagenId/delete", checkUser, imagenAlbumController.removeImagenAlbum);
 
     app.use("/imagenAlbum", router);
 }
