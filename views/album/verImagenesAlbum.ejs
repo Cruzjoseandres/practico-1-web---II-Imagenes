@@ -1,0 +1,50 @@
+<%- include('../components/header.ejs') %>
+
+<div class="container">
+  <h1>Imágenes del Álbum: <%= album.titulo %></h1>
+  <div>
+    <div style="display: flex; justify-content: left; gap: 10px">
+      <button class="btn btn-primary mb-3">
+        <a class="nav-link" href="/createImageAlbum/<%= album.id %>">Crear Nueva Imagen</a>
+      </button>
+      <button class="btn btn-secondary mb-3">
+        <a href="/addImageAlbum/<%= album.id %>" class="text-white text-decoration-none">Agregar Imagen al Álbum</a>
+      </button>
+    </div>
+  </div>
+
+  <%- include('../components/error.ejs') %>
+  <% if (album.imagenes.length == 0) { %>
+    <p>No hay imágenes en este álbum.</p>
+  <% } else { %>
+    <div class="row">
+      <% album.imagenes.forEach(imagen => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img
+              src="<%= '/uploads/' + imagen.id + '.jpg' %>"
+              class="card-img-top"
+              alt="<%= imagen.titulo %>"
+            />
+            <div class="card-body">
+              <h5 class="card-title"><%= imagen.titulo %></h5>
+              <p class="card-text"><%= imagen.descripcion %></p>
+              <div style="display: flex; justify-content: left; gap: 10px">
+                <a href="/imagenes/<%= imagen.id %>" class="btn btn-info">Ver</a>
+                <form
+                  onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');"
+                  method="POST"
+                  action="/imagenes/<%= imagen.id %>/delete"
+                >
+                  <button class="btn btn-danger" type="submit">Eliminar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../components/footer.ejs') %>

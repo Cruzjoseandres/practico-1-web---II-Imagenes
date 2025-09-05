@@ -6,10 +6,6 @@ module.exports = function (sequelize) {
     const Imagen = sequelize.define(
         'Imagen',
         {
-            url: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
             titulo: {
                 type: DataTypes.STRING,
                 allowNull: false,

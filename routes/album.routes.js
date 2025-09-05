@@ -8,5 +8,6 @@ module.exports = (app) => {
     router.post("/:id", checkUser, albumController.updateAlbum);
     router.post("/:id/delete", checkUser, albumController.deleteAlbum);
     router.get("/", checkUser, albumController.getAlbums);
+    router.get("/:id", checkUser, albumController.getImagenesByAlbum);
     app.use("/album", router);
 }

@@ -1,7 +1,8 @@
 const express = require('express')
 const bodyParser = require("body-parser");
 const db = require("./models/");
-const session = require('express-session')
+const session = require('express-session');
+const fileUpload = require('express-fileupload');
 const app = express()
 const port = 3000
 app.use(express.json());
@@ -17,8 +18,12 @@ app.use(session({
     secret: 'practico 1 web-2'
 }))
 
+app.use(fileUpload({
+  limits: { fileSize: 10 * 1024 * 1024 },
+}));
+
 db.sequelize.sync({
-     // force: true // drop tables and recreate
+    //  force: true // drop tables and recreate
 }).then(() => {
     console.log("db resync");
 });

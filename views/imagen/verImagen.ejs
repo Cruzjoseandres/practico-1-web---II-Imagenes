@@ -1,0 +1,51 @@
+<%- include('../components/header.ejs') %>
+
+<div class="container-fluid bg-light min-vh-100 py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card shadow-lg border-0 rounded-3">
+          <div class="card-header bg-primary text-white text-center">
+            <h1 class="h3 mb-0"><%= imagen.titulo %></h1>
+          </div>
+          
+          <%- include('../components/error.ejs') %>
+          
+          <div class="card-body text-center">
+            <img
+              src="<%= '/uploads/' + imagen.id + '.jpg' %>"
+              class="img-fluid rounded mb-4 shadow"
+              alt="<%= imagen.titulo %>"
+              style="max-height: 400px; object-fit: cover;"
+            />
+            
+            <h5 class="card-title text-primary mb-3"><%= imagen.titulo %></h5>
+            <p class="card-text text-muted mb- 4"><%= imagen.descripcion %></p>
+            
+            <div class="d-flex justify-content-center gap-3">
+              <a href="/" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver
+              </a>
+              <form
+                onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');"
+                method="POST"
+                action="/imagenes/<%= imagen.id %>/delete"
+                class="d-inline"
+              >
+                <button class="btn btn-danger" type="submit">
+                  <i class="fas fa-trash me-2"></i>Eliminar
+                </button>
+              </form>
+            </div>
+          </div>
+          
+          <div class="card-footer text-muted text-center">
+            <small>ID de imagen: <%= imagen.id %></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../components/footer.ejs') %>

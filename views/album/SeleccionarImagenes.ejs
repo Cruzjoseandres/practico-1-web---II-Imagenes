@@ -1,0 +1,100 @@
+<%- include('../components/header.ejs') %>
+<div class="container">
+  <div class="row mt-4 mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h1 class="h3 mb-0">Seleccionar Imágenes para "<%= album.titulo %>"</h1>
+        </div>
+        <div class="card-body">
+          <form action="/imagenAlbum/add/<%= album.id %>" method="POST">
+            <%- include('../components/error.ejs') %>
+            
+            <% if (imagenes && imagenes.length > 0) { %>
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <% imagenes.forEach(imagen => { %>
+                  <div class="col">
+                    <div class="card h-100 border-light shadow-sm hover-shadow">
+                      <div class="position-relative">
+                        <img 
+                          src="<%= '/uploads/' + imagen.id + '.jpg' %>" 
+                          alt="<%= imagen.titulo %>" 
+                          class="card-img-top" 
+                          style="height: 180px; object-fit: cover;"
+                        />
+                        <div class="position-absolute top-0 end-0 p-2">
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="imagenId"
+                              name="imagenId"
+                              value="<%= imagen.id %>"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title text-truncate" title="<%= imagen.titulo %>">
+                          <%= imagen.titulo %>
+                        </h5>
+                        <label class="form-check-label d-flex align-items-center" for="imagenId">
+                          <span class="badge bg-light text-dark me-2">ID: <%= imagen.id %></span>
+                          Seleccionar
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                <% }) %>
+              </div>
+              
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <a href="/album/<%= album.id %>" class="btn btn-outline-secondary me-md-2">
+                  <i class="bi bi-arrow-left"></i> Volver al álbum
+                </a>
+                <button class="btn btn-primary" type="submit">
+                  <i class="bi bi-plus-circle"></i> Añadir Imágenes Seleccionadas
+                </button>
+              </div>
+            <% } else { %>
+              <div class="alert alert-info d-flex align-items-center" role="alert">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                <div>
+                  No tienes imágenes disponibles para añadir al álbum.
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <a href="/album/<%= album.id %>" class="btn btn-outline-primary">
+                  <i class="bi bi-arrow-left"></i> Volver al álbum
+                </a>
+                <a href="/createImageAlbum/<%= album.id %>" class="btn btn-success ms-2">
+                  <i class="bi bi-plus-circle"></i> Crear nueva imagen
+                </a>
+              </div>
+            <% } %>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Añadir estilos personalizados -->
+<style>
+  .hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease;
+  }
+  .form-check-input {
+    cursor: pointer;
+    width: 1.2em;
+    height: 1.2em;
+  }
+  .card-img-top {
+    border-top-left-radius: calc(0.375rem - 1px);
+    border-top-right-radius: calc(0.375rem - 1px);
+  }
+</style>
+
+<%- include('../components/footer.ejs') %>

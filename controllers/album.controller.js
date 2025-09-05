@@ -1,4 +1,6 @@
 const db = require ("../models/");
+const {sequelize} = db;
+
 
 exports.createAlbum = async (req, res) => {
     const { titulo } = req.body;
@@ -48,7 +50,7 @@ exports.deleteAlbum = async (req, res) => {
         }
 
         await album.destroy();
-        res.status(204).send();
+        res.redirect("/album");
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -63,9 +65,23 @@ exports.getAlbums = async (req, res) => {
 
     try {
         const albums = await db.album.findAll({
-            where: { usuarioId }
-        });
-
+              where: { usuarioId },
+              include: [
+                {
+                  model: db.imagen,
+                  as: "imagenes",
+                  through: { attributes: [] },
+                  required: false,
+                  where: {
+                    id: sequelize.literal(`(
+                  SELECT MAX("imagenId") 
+                  FROM "ImagenAlbums" 
+                  WHERE "ImagenAlbums"."albumId" = "Album"."id"
+                )`),
+                  },
+                },
+              ],
+            });
         res.render("album/listaAlbum", { albums , error : null});
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -73,26 +89,29 @@ exports.getAlbums = async (req, res) => {
 };
 
 
-exports.getAllAlbumWithLastImage = async (req, res) => {
-    const usuarioId = req.session.user.id;
 
-    if (!usuarioId) {
-        return res.status(401).json({ error: "Usuario no autenticado" });
+exports.getImagenesByAlbum = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ error: "ID de álbum no proporcionado" });
+  }
+  
+  try {
+
+    const album = await db.album.findByPk(id, {
+      include: [{
+        model: db.imagen,
+        as: "imagenes",
+        through: { attributes: [] } 
+      }]
+    });
+    
+    if (!album) {
+      return res.status(404).json({ error: "Álbum no encontrado" });
     }
-
-    try {
-        const albums = await db.album.findAll({
-            where: { usuarioId },
-            include: [{
-                model: db.imagen,
-                as: "imagenes",
-                limit: 1,  
-                order: [["createdAt", "DESC"]]  
-            }]
-        });
-
-        res.render("album/listaAlbum", { albums, error: null });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    res.render("album/verImagenesAlbum", { album, error: null });
+  } catch (error) {
+    console.error("Error al obtener imágenes del álbum:", error);
+    res.status(500).json({ error: error.message });
+  }
 };

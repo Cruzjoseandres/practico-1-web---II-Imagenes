@@ -15,6 +15,10 @@ module.exports = (app) => {
     
     router.get("/createAlbum", checkUser, homeController.getFormAlbum);
 
+    router.get("/createImageAlbum/:id", checkUser, homeController.getFormImageAlbum);
+
+    router.get("/addImageAlbum/:id", checkUser, homeController.getFormAddAlbumImage);
+
 
     app.use("/", router);
 }

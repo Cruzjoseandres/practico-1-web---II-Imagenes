@@ -8,6 +8,7 @@ module.exports = (app) => {
     router.get("/", checkUser, imagenController.getAllImages);
     router.post("/create", checkUser, imagenController.createImagen);
     router.post("/:id/delete", checkUser, imagenController.deleteImagen);
+    router.get("/:id", checkUser, imagenController.getImagenById);
 
     app.use("/imagenes", router);
 }

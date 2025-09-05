@@ -5,9 +5,9 @@
       <div class="card">
         <div class="card-body">
           <div class="card-title">
-            <h1>Subir Imagen</h1>
+            <h1>Subir Imagen A <%= album.titulo %> </h1>
           </div>
-          <form action="/imagenes/create" method="POST" enctype="multipart/form-data">
+          <form action="/imagenAlbum/create/<%= album.id %>" method="POST" enctype="multipart/form-data">
             <%- include('../components/error.ejs') %>
 
             <div class="mb-2">

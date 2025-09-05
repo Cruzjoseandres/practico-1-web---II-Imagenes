@@ -5,7 +5,8 @@ module.exports = (app) => {
     const imagenAlbumController = require ("../controllers/ImagenAlbum.controller");
 
 
-    router.post("/", checkUser, imagenAlbumController.createImagenAlbum);
+    router.post("/create/:id", checkUser, imagenAlbumController.createImagenAlbum);
+    router.post("/add/:id", checkUser, imagenAlbumController.addImagenAlbum)
 
-    app.use("/imagen-album", router);
+    app.use("/imagenAlbum", router);
 }
